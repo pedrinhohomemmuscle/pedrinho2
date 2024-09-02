@@ -47,3 +47,30 @@ class PongPanel extends javax.swing.JPanel implements java.awt.event.ActionListe
         if (ballX >= 360 && ballY >= paddle2Y && ballY <= paddle2Y + PADDLE_HEIGHT) {
             ballDX = -ballDX;
         }
+
+        // Ball out of bounds
+        if (ballX < 0 || ballX > getWidth()) {
+            ballX = 100;
+            ballY = 100;
+            ballDX = -ballDX;
+        }
+
+        repaint();
+    }
+
+    @Override
+    public void keyTyped(java.awt.event.KeyEvent e) {}
+
+    @Override
+    public void keyPressed(java.awt.event.KeyEvent e) {
+        if (e.getKeyCode() == java.awt.event.KeyEvent.VK_UP && paddle2Y > 0) {
+            paddle2Y -= 5;
+        }
+        if (e.getKeyCode() == java.awt.event.KeyEvent.VK_DOWN && paddle2Y < getHeight() - PADDLE_HEIGHT) {
+            paddle2Y += 5;
+        }
+    }
+
+    @Override
+    public void keyReleased(java.awt.event.KeyEvent e) {}
+}
