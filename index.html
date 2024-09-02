@@ -1,0 +1,49 @@
+public class SimplePong {
+    public static void main(String[] args) {
+        javax.swing.JFrame frame = new javax.swing.JFrame("Pong Game");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        frame.add(new PongPanel());
+        frame.setVisible(true);
+    }
+}
+
+class PongPanel extends javax.swing.JPanel implements java.awt.event.ActionListener, java.awt.event.KeyListener {
+    private javax.swing.Timer timer;
+    private int ballX = 100, ballY = 100, ballDX = 2, ballDY = 2;
+    private int paddle1Y = 100, paddle2Y = 100;
+    private static final int PADDLE_WIDTH = 10, PADDLE_HEIGHT = 60;
+    private static final int BALL_SIZE = 10;
+
+    public PongPanel() {
+        timer = new javax.swing.Timer(5, this);
+        timer.start();
+        setFocusable(true);
+        addKeyListener(this);
+    }
+
+    @Override
+    protected void paintComponent(java.awt.Graphics g) {
+        super.paintComponent(g);
+        g.fillRect(20, paddle1Y, PADDLE_WIDTH, PADDLE_HEIGHT); // Paddle 1
+        g.fillRect(370, paddle2Y, PADDLE_WIDTH, PADDLE_HEIGHT); // Paddle 2
+        g.fillOval(ballX, ballY, BALL_SIZE, BALL_SIZE); // Ball
+    }
+
+    @Override
+    public void actionPerformed(java.awt.event.ActionEvent e) {
+        ballX += ballDX;
+        ballY += ballDY;
+
+        // Ball collision with top and bottom
+        if (ballY <= 0 || ballY >= getHeight() - BALL_SIZE) {
+            ballDY = -ballDY;
+        }
+
+        // Ball collision with paddles
+        if (ballX <= 30 && ballY >= paddle1Y && ballY <= paddle1Y + PADDLE_HEIGHT) {
+            ballDX = -ballDX;
+        }
+        if (ballX >= 360 && ballY >= paddle2Y && ballY <= paddle2Y + PADDLE_HEIGHT) {
+            ballDX = -ballDX;
+        }
